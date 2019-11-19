@@ -55,10 +55,10 @@ optimizer = torch.optim.SGD(model.parameters(), lr = 0.001)
 
 ### Training
 
-Using the PyTorch library, we train with these following steps with an `epochs = 3`:
+Using the PyTorch library, we train with these following steps with an `epochs = 3` or `epochs = 10`:
 
 ```python
-# configures the model to 'train' mode, which ensures taht all steps are recorded for back propagation
+# configures the model to 'train' mode, which ensures that all steps are recorded for back propagation
 model.train()
 
 epochs = 3
@@ -90,10 +90,12 @@ For every epoch, we load up the training data in batches of 64, flatten the imag
 
 ### Saving models
 
-We save various different models with different configurations, alll found in the `models/` folder.
+We save various different models with different configurations, alll found in the `models/` folder. I used the saving / loading tutorial [here](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
 
-1. `one_hidden_layer.pt` A MLP with one hidden layer of size 300
-2. `six_hidden_layers.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]
+1. `one_hidden_layer_three_epochs.pt` A MLP with one hidden layer of size 300, trained on 3 epochs
+2. `six_hidden_layers_three_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 3 epochs
+3. `one_hidden_layer_ten_epochs.pt` A MLP with one hidden layer of size 300, trained on 10 epochs
+4. `six_hidden_layers_ten_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 10 epochs
 
 ## Single-layer Perceptron
 
