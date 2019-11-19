@@ -126,8 +126,9 @@ I observed the following performances.
 
 ![graph](https://github.com/ziruihao/ml/blob/master/outcome/graph.png "Graph")
 
+The most remarkable trends were that the cross entropy loss MLPs experienced the greatest improvements as we increased the epochs from 3 to 30. The negative log-likelihood loss counterparts did not experience as great of an improvement through the epochs.
 
-It is worthy to note that for the MLP with six hidden layers, the performance significantly decreased. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
+Moreover, the fewer the hidden layers, the better the performance. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
 
 ## Single-layer Perceptron
 
