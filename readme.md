@@ -95,3 +95,9 @@ We save various different models with different configurations, alll found in th
 1. `one_hidden_layer.pt` A MLP with one hidden layer of size 300
 2. `six_hidden_layers.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]
 
+## Single-layer Perceptron
+
+I have the intuition that the SLP would not have the capacity to train over this type of data set because the classifying space is not linearly separable. Nonetheless, I wanted to observe the performance.
+
+### Network architecture
+
