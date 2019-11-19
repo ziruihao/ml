@@ -87,3 +87,11 @@ for epoch in range(epochs):
 ```
 
 For every epoch, we load up the training data in batches of 64, flatten the image, reset the gradient, and then propagate the data forward. We then calculate the loss and then propagate this back. Finally, we edit the weights based on the optimizing function.
+
+### Saving models
+
+We save various different models with different configurations, alll found in the `models/` folder.
+
+1. `one_hidden_layer.pt` A MLP with one hidden layer of size 300
+2. `six_hidden_layers.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]
+
