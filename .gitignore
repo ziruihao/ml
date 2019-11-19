@@ -7,3 +7,4 @@ mlp/PATH_TO_STORE_TRAINSET
 mlp/include
 mlp/.vscode
 .vscode/settings.json
+.DS_Store
