@@ -1,18 +1,32 @@
 # My First MNIST Adventure
 
-In building my first artificial neural network, I wanted to explore the classic MNIST digit data set with a multi-layer perceptron and support vector machine.
+In building my first artificial neural network, I wanted to explore the classic MNIST digit data set with a multi-layer perceptron. I evaluated the performances of different MLP models by varying these properties:
 
-## Multi-layer Perceptron
+1. Number of hidden layers
+2. Epoch size
+3. Type of loss function
+4. Type of optimizing function
 
-I used the [PyTorch](https://pytorch.org/) library to configure a multi-layer perceptron network.
+I used the [PyTorch](https://pytorch.org/) library to create these networks.
 
-### Network architecture
+## Network architecture
 
 The `MLP` class I built is defined with the parameters of `input_size = 784` - the number of input nodes for a 28x28 image, `output_size = 10` - the size of the prediction space, and `hidden_layer_sizes` - an array of sizes for the hidden layers.
 
+### Hidden layers
+
+I build models with these types of hidden layers:
+
+1. One hidden layer with 300 nodes
+2. Two hidden layers with 400, 200 nodes
+3. Six hidden layers with 600, 500, 400, 300, 200, 100 nodes
+4. Eight hidden layers all with 64 nodes
+
+### Activation functions
+
 For each hidden layer, a non-linear ReLU activation function is applied in order to make this a multi-layer perceptron.
 
-After the final layer of size `output_size`, we apply PyTorch's [logarithmic Softmax](https://pytorch.org/docs/stable/_modules/torch/nn/modules/activation.html#LogSoftmax) classification function that maps the values of the 10 predictions to the most likely one.
+After the final layer of size `output_size`, we apply either the [logarithmic Softmax](https://pytorch.org/docs/stable/_modules/torch/nn/modules/activation.html#LogSoftmax) classification function or just the [Softmax](https://pytorch.org/docs/stable/_modules/torch/nn/modules/activation.html#Softmax) classification function, both of which maps the values of the 10 predictions to the most likely one.
 
 ```python
 class MLP(torch.nn.Module):
@@ -40,12 +54,17 @@ class MLP(torch.nn.Module):
     def forward(self, x):
         return self.layers(x)
 ```
+### Loss function
 
-I use the [negative log-likelihood loss](https://pytorch.org/docs/stable/nn.html#nllloss) function, as recommended by this [article](https://towardsdatascience.com/handwritten-digit-mnist-pytorch-977b5338e627), as it goes well with the [logarithmic Softmax](https://pytorch.org/docs/stable/_modules/torch/nn/modules/activation.html#LogSoftmax) function we use in the last layer.
+I either use the [negative log-likelihood loss](https://pytorch.org/docs/stable/nn.html#nllloss) function, as recommended by this [article](https://towardsdatascience.com/handwritten-digit-mnist-pytorch-977b5338e627) or I use the [cross entropy loss](https://pytorch.org/docs/stable/_modules/torch/nn/modules/loss.html#CrossEntropyLoss) function.
 
 ```python
 loss_function = torch.nn.NLLLoss()
+# or
+loss_function = torch.nn.CrossEntropyLoss()
 ```
+
+### Optimizing function
 
 For the optimizing function, I use the classic [stochastic gradient descent](https://pytorch.org/docs/stable/_modules/torch/optim/sgd.html) algorithm with a learning rate `lr = 0.001`.
 
@@ -55,42 +74,46 @@ optimizer = torch.optim.SGD(model.parameters(), lr = 0.001)
 
 ### Training
 
-Using the PyTorch library, we train with these following steps with an `epochs = 3` or `epochs = 10`:
+I built the `train()` function on a variety of epochs.
 
 ```python
-# configures the model to 'train' mode, which ensures that all steps are recorded for back propagation
-model.train()
+def train(model_name, model, loss_function, optimizer, epochs, transform, train_data, train_loader):
 
-epochs = 3
+    # configures the model to 'train' mode, which ensures that all steps are recorded for back propagation
+    model.train()
 
-for epoch in range(epochs):
+    for epoch in range(epochs):
 
-    for train_digits, train_labels in train_loader:
+        print('\t\t' + str(epoch))
 
-        # flatten the training digit image
-        train_digits = train_digits.view(train_digits.shape[0], -1)
+        for train_digits, train_labels in train_loader:
 
-        # reset the optimizing gradient to zero
-        optimizer.zero_grad()
+            # flatten the training digit image
+            train_digits = train_digits.view(train_digits.shape[0], -1)
 
-        # feed forward propagation
-        pred = model(train_digits)
+            # reset the optimizing gradient to zero
+            optimizer.zero_grad()
 
-        # calculate loss function
-        loss = loss_function(pred.squeeze(), train_labels)
+            # feed forward propagation
+            pred = model(train_digits)
 
-        # back-propagate
-        loss.backward()
+            # calculate loss function
+            loss = loss_function(pred.squeeze(), train_labels)
 
-        # change weights based on loss function
-        optimizer.step()
+            # back-propagate
+            loss.backward()
+
+            # change weights based on loss function
+            optimizer.step()
+
+    torch.save(model.state_dict(), './models/' + model_name + '.pt')
 ```
 
-For every epoch, we load up the training data in batches of 64, flatten the image, reset the gradient, and then propagate the data forward. We then calculate the loss and then propagate this back. Finally, we edit the weights based on the optimizing function.
+For every epoch, we load up the training data in batches of 64, flatten the image, reset the gradient, and then propagate the data forward. We then calculate the loss and then propagate this back. Finally, we edit the weights based on the optimizing function. Finally, we save the model.
 
 ### Saving models
 
-We save various different models with different configurations, alll found in the `models/` folder. I used the saving / loading tutorial [here](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
+I saved the various different models with different configurations, all found in the `models/` folder. I used the saving / loading tutorial [here](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
 
 1. `one_hidden_layer_three_epochs.pt` A MLP with one hidden layer of size 300, trained on 3 epochs
 2. `two_hidden_layers_three_epochs.pt` A MLP with two hidden layers, with sizes `[400, 200]`, trained on 3 epochs
