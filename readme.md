@@ -115,6 +115,14 @@ For every epoch, we load up the training data in batches of 64, flatten the imag
 
 I saved the various different models with different configurations, all found in the `models/` folder. I used the saving / loading tutorial [here](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
 
+The models are saved in the format of `{MLP or SLP}_{# of hidden layers}_{loss function}_{optimizer}_{epochs}.pt`.
+
+|   |   |   |   |   |
+|---|---|---|---|---|
+|   | a |   |   |   |
+|   |   |   |   |   |
+|   |   |   |   |   |
+
 1. `one_hidden_layer_three_epochs.pt` A MLP with one hidden layer of size 300, trained on 3 epochs
 2. `two_hidden_layers_three_epochs.pt` A MLP with two hidden layers, with sizes `[400, 200]`, trained on 3 epochs
 3. `six_hidden_layers_three_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 3 epochs
