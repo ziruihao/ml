@@ -1,28 +1,10 @@
-<style TYPE="text/css">
-code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
-</style>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] // removed 'code' entry
-    }
-});
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-});
-</script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full"></script>
 # My First MNIST Adventure
 
 In building my first artificial neural network, I wanted to explore the classic MNIST digit data set with a multi-layer perceptron and support vector machine.
 
 ## Multi-layer Perceptron
 
-I used the https://pytorch.org/ library to configure a multi-layer perceptron network.
+I used the [PyTorch](https://pytorch.org/) library to configure a multi-layer perceptron network.
 
 ### Network architecture
 
@@ -30,7 +12,7 @@ The `MLP` class is defined with the parameters of `input_size = 784` - the numbe
 
 For each hidden layer, a non-linear ReLU activation function is applied in order to make this a multi-layer perceptron.
 
-After the final layer of size `output_size`, we apply PyTorch's $Softmax$ classification function that maps the values of the 10 predictions to the most likely one.
+After the final layer of size `output_size`, we apply PyTorch's [logarithmic Softmax](https://pytorch.org/docs/stable/_modules/torch/nn/modules/activation.html#LogSoftmax) classification function that maps the values of the 10 predictions to the most likely one.
 
 ```python
 class MLP(torch.nn.Module):
