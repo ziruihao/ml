@@ -1,4 +1,4 @@
-# My First MNIST Adventure
+# My First ANN Adventure
 
 In building my first artificial neural network, I wanted to explore the classic MNIST digit data set with a multi-layer perceptron. I evaluated the performances of different MLP models by varying these properties:
 
