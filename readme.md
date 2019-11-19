@@ -93,9 +93,24 @@ For every epoch, we load up the training data in batches of 64, flatten the imag
 We save various different models with different configurations, alll found in the `models/` folder. I used the saving / loading tutorial [here](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
 
 1. `one_hidden_layer_three_epochs.pt` A MLP with one hidden layer of size 300, trained on 3 epochs
-2. `six_hidden_layers_three_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 3 epochs
-3. `one_hidden_layer_ten_epochs.pt` A MLP with one hidden layer of size 300, trained on 10 epochs
-4. `six_hidden_layers_ten_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 10 epochs
+2. `two_hidden_layers_three_epochs.pt` A MLP with two hidden layers, with sizes `[400, 200]`, trained on 3 epochs
+3. `six_hidden_layers_three_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 3 epochs
+4. `one_hidden_layer_ten_epochs.pt` A MLP with one hidden layer of size 300, trained on 10 epochs
+5. `two_hidden_layers_ten_epochs.pt` A MLP with two hidden layers, with sizes `[400, 200]`, trained on 10 epochs
+6. `six_hidden_layers_ten_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 10 epochs
+
+### Performance
+
+I observed the following performances.
+
+1. `one_hidden_layer_three_epochs.pt` 86.01%
+2. `two_hidden_layers_three_epochs.pt` 78.39%
+2. `six_hidden_layers_three_epochs.pt` 10.10%
+3. `one_hidden_layer_ten_epochs.pt` 89.50%
+2. `two_hidden_layers_ten_epochs.pt` 88.95%
+4. `six_hidden_layers_ten_epochs.pt` 11.35%
+
+It is worthy to note that for the MLP with six hidden layers, the performance significantly decreased. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
 
 ## Single-layer Perceptron
 
