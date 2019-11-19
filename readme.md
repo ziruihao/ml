@@ -8,7 +8,7 @@ I used the [PyTorch](https://pytorch.org/) library to configure a multi-layer pe
 
 ### Network architecture
 
-The `MLP` class is defined with the parameters of `input_size = 784` - the number of input nodes for a 28x28 image, `output_size = 10` - the size of the prediction space, and `hidden_layer_sizes` - an array of sizes for the hidden layers.
+The `MLP` class I built is defined with the parameters of `input_size = 784` - the number of input nodes for a 28x28 image, `output_size = 10` - the size of the prediction space, and `hidden_layer_sizes` - an array of sizes for the hidden layers.
 
 For each hidden layer, a non-linear ReLU activation function is applied in order to make this a multi-layer perceptron.
 
@@ -41,4 +41,49 @@ class MLP(torch.nn.Module):
         return self.layers(x)
 ```
 
+I use the [negative log-likelihood loss](https://pytorch.org/docs/stable/nn.html#nllloss) function, as recommended by this [article](https://towardsdatascience.com/handwritten-digit-mnist-pytorch-977b5338e627), as it goes well with the [logarithmic Softmax](https://pytorch.org/docs/stable/_modules/torch/nn/modules/activation.html#LogSoftmax) function we use in the last layer.
 
+```python
+loss_function = torch.nn.NLLLoss()
+```
+
+For the optimizing function, I use the classic [stochastic gradient descent](https://pytorch.org/docs/stable/_modules/torch/optim/sgd.html) algorithm with a learning rate `lr = 0.001`.
+
+```python
+optimizer = torch.optim.SGD(model.parameters(), lr = 0.001)
+```
+
+### Training
+
+Using the PyTorch library, we train with these following steps with an `epochs = 3`:
+
+```python
+# configures the model to 'train' mode, which ensures taht all steps are recorded for back propagation
+model.train()
+
+epochs = 3
+
+for epoch in range(epochs):
+
+    for train_digits, train_labels in train_loader:
+
+        # flatten the training digit image
+        train_digits = train_digits.view(train_digits.shape[0], -1)
+
+        # reset the optimizing gradient to zero
+        optimizer.zero_grad()
+
+        # feed forward propagation
+        pred = model(train_digits)
+
+        # calculate loss function
+        loss = loss_function(pred.squeeze(), train_labels)
+
+        # back-propagate
+        loss.backward()
+
+        # change weights based on loss function
+        optimizer.step()
+```
+
+For every epoch, we load up the training data in batches of 64, flatten the image, reset the gradient, and then propagate the data forward. We then calculate the loss and then propagate this back. Finally, we edit the weights based on the optimizing function.
