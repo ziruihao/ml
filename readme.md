@@ -117,19 +117,6 @@ I saved the various different models with different configurations, all found in
 
 The models are saved in the format of `{MLP or SLP}_{# of hidden layers}_{loss function}_{optimizer}_{epochs}.pt`.
 
-|   |   |   |   |   |
-|---|---|---|---|---|
-|   | a |   |   |   |
-|   |   |   |   |   |
-|   |   |   |   |   |
-
-1. `one_hidden_layer_three_epochs.pt` A MLP with one hidden layer of size 300, trained on 3 epochs
-2. `two_hidden_layers_three_epochs.pt` A MLP with two hidden layers, with sizes `[400, 200]`, trained on 3 epochs
-3. `six_hidden_layers_three_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 3 epochs
-4. `one_hidden_layer_ten_epochs.pt` A MLP with one hidden layer of size 300, trained on 10 epochs
-5. `two_hidden_layers_ten_epochs.pt` A MLP with two hidden layers, with sizes `[400, 200]`, trained on 10 epochs
-6. `six_hidden_layers_ten_epochs.pt` A MLP with six hidden layers, with sizes `[600, 500, 400, 300, 200, 100]`, trained on 10 epochs
-
 ### Performance
 
 I observed the following performances.
