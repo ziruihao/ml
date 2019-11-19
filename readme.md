@@ -105,10 +105,10 @@ I observed the following performances.
 
 1. `one_hidden_layer_three_epochs.pt` 86.01%
 2. `two_hidden_layers_three_epochs.pt` 78.39%
-2. `six_hidden_layers_three_epochs.pt` 10.10%
-3. `one_hidden_layer_ten_epochs.pt` 89.50%
-2. `two_hidden_layers_ten_epochs.pt` 88.95%
-4. `six_hidden_layers_ten_epochs.pt` 11.35%
+3. `six_hidden_layers_three_epochs.pt` 10.10%
+4. `one_hidden_layer_ten_epochs.pt` 89.50%
+5. `two_hidden_layers_ten_epochs.pt` 88.95%
+6. `six_hidden_layers_ten_epochs.pt` 11.35%
 
 It is worthy to note that for the MLP with six hidden layers, the performance significantly decreased. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
 
@@ -118,3 +118,37 @@ I have the intuition that the SLP would not have the capacity to train over this
 
 ### Network architecture
 
+The architecture for the single-layer perceptron is much simpler. We only use one layer because it does not make a difference how many layers since there is no non-linearily between them.
+
+```python
+class SLP(torch.nn.Module):
+
+    def __init__(self, input_size, output_size):
+        super(SLP, self).__init__()
+        
+        # we have a final log(Softmax) function to find the most likely prediction in the last layer
+        self.layers = torch.nn.Sequential(torch.nn.Linear(input_size, output_size), torch.nn.LogSoftmax(dim = 1))
+
+    def forward(self, x):
+        return self.layers(x)
+ ```
+
+### Training
+
+We use the same training algorithm defined in the previous section.
+
+### Saving models
+
+We save various different models with different configurations, alll found in the `models/` folder.
+
+1. `single_layer_three_epochs.pt` A SLP trained on 3 epochs
+2. `single_layer_ten_epochs.pt` A SLP trained on 10 epochs
+
+### Performance
+
+I observed the following performances.
+
+1. `single_layer_three_epochs.pt` 86.84%
+3. `single_layer_ten_epochs.pt` 89.52%
+
+I found it surprising that with a single-layer perceptron, we achieved performances that are comparable to using a MLP. Moreover, the performance is most comparable to the one hidden layer models.
