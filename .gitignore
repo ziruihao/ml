@@ -6,3 +6,4 @@ mlp/PATH_TO_STORE_TESTSET
 mlp/PATH_TO_STORE_TRAINSET
 mlp/include
 mlp/.vscode
+.vscode/settings.json
