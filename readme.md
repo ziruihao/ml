@@ -121,12 +121,11 @@ The models are saved in the format of `{MLP or SLP}_{# of hidden layers}_{loss f
 
 I observed the following performances.
 
-1. `one_hidden_layer_three_epochs.pt` 86.01%
-2. `two_hidden_layers_three_epochs.pt` 78.39%
-3. `six_hidden_layers_three_epochs.pt` 10.10%
-4. `one_hidden_layer_ten_epochs.pt` 89.50%
-5. `two_hidden_layers_ten_epochs.pt` 88.95%
-6. `six_hidden_layers_ten_epochs.pt` 11.35%
+![table](https://github.com/ziruihao/ml/blob/master/outcome/table.png "Table")
+
+
+![graph](https://github.com/ziruihao/ml/blob/master/outcome/graph.png "Graph")
+
 
 It is worthy to note that for the MLP with six hidden layers, the performance significantly decreased. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
 
