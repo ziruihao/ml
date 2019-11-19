@@ -1,4 +1,4 @@
-# My First MNIST Adventure
+# My First ANN Adventure
 
 In building my first artificial neural network, I wanted to explore the classic MNIST digit data set with a multi-layer perceptron. I evaluated the performances of different MLP models by varying these properties:
 
@@ -9,7 +9,7 @@ In building my first artificial neural network, I wanted to explore the classic 
 
 I used the [PyTorch](https://pytorch.org/) library to create these networks.
 
-## Network architecture
+## Network architecture (MLP)
 
 The `MLP` class I built is defined with the parameters of `input_size = 784` - the number of input nodes for a 28x28 image, `output_size = 10` - the size of the prediction space, and `hidden_layer_sizes` - an array of sizes for the hidden layers.
 
@@ -54,6 +54,26 @@ class MLP(torch.nn.Module):
     def forward(self, x):
         return self.layers(x)
 ```
+
+## Network architecture (SLP)
+
+I have the intuition that the SLP would not have the capacity to train over this type of data set because the classifying space is not linearly separable. Nonetheless, I wanted to observe the performance.
+
+The architecture for the single-layer perceptron is much simpler. We only use one layer because it does not make a difference how many layers since there is no non-linearily between them.
+
+```python
+class SLP(torch.nn.Module):
+
+    def __init__(self, input_size, output_size):
+        super(SLP, self).__init__()
+        
+        # we have a final log(Softmax) function to find the most likely prediction in the last layer
+        self.layers = torch.nn.Sequential(torch.nn.Linear(input_size, output_size), torch.nn.LogSoftmax(dim = 1))
+
+    def forward(self, x):
+        return self.layers(x)
+ ```
+
 ### Loss function
 
 I either use the [negative log-likelihood loss](https://pytorch.org/docs/stable/nn.html#nllloss) function, as recommended by this [article](https://towardsdatascience.com/handwritten-digit-mnist-pytorch-977b5338e627) or I use the [cross entropy loss](https://pytorch.org/docs/stable/_modules/torch/nn/modules/loss.html#CrossEntropyLoss) function.
@@ -121,52 +141,13 @@ The models are saved in the format of `{MLP or SLP}_{# of hidden layers}_{loss f
 
 I observed the following performances.
 
-1. `one_hidden_layer_three_epochs.pt` 86.01%
-2. `two_hidden_layers_three_epochs.pt` 78.39%
-3. `six_hidden_layers_three_epochs.pt` 10.10%
-4. `one_hidden_layer_ten_epochs.pt` 89.50%
-5. `two_hidden_layers_ten_epochs.pt` 88.95%
-6. `six_hidden_layers_ten_epochs.pt` 11.35%
+![table](https://github.com/ziruihao/ml/blob/master/outcome/table.png "Table")
 
-It is worthy to note that for the MLP with six hidden layers, the performance significantly decreased. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
 
-## Single-layer Perceptron
+![graph](https://github.com/ziruihao/ml/blob/master/outcome/graph.png "Graph")
 
-I have the intuition that the SLP would not have the capacity to train over this type of data set because the classifying space is not linearly separable. Nonetheless, I wanted to observe the performance.
+The most remarkable trends were that the cross entropy loss MLPs experienced the greatest improvements as we increased the epochs from 3 to 30. The negative log-likelihood loss counterparts did not experience as great of an improvement through the epochs.
 
-### Network architecture
+Moreover, the fewer the hidden layers, the better the performance. This could very much be due to the [overfitting hypothesis](https://stats.stackexchange.com/questions/338255/what-is-effect-of-increasing-number-of-hidden-layers-in-a-feed-forward-nn). The performance with even two hidden layers was still just below that of using just one hidden layer. It seems that for this classification problem, the optimal is one hidden layer.
 
-The architecture for the single-layer perceptron is much simpler. We only use one layer because it does not make a difference how many layers since there is no non-linearily between them.
-
-```python
-class SLP(torch.nn.Module):
-
-    def __init__(self, input_size, output_size):
-        super(SLP, self).__init__()
-        
-        # we have a final log(Softmax) function to find the most likely prediction in the last layer
-        self.layers = torch.nn.Sequential(torch.nn.Linear(input_size, output_size), torch.nn.LogSoftmax(dim = 1))
-
-    def forward(self, x):
-        return self.layers(x)
- ```
-
-### Training
-
-We use the same training algorithm defined in the previous section.
-
-### Saving models
-
-We save various different models with different configurations, alll found in the `models/` folder.
-
-1. `single_layer_three_epochs.pt` A SLP trained on 3 epochs
-2. `single_layer_ten_epochs.pt` A SLP trained on 10 epochs
-
-### Performance
-
-I observed the following performances.
-
-1. `single_layer_three_epochs.pt` 86.84%
-3. `single_layer_ten_epochs.pt` 89.52%
-
-I found it surprising that with a single-layer perceptron, we achieved performances that are comparable to using a MLP. Moreover, the performance is most comparable to the one hidden layer models.
+I also found it surprising that with a single-layer perceptron, we achieved performances that are comparable to using a MLP. Moreover, the performance is most comparable to the one hidden layer models.
