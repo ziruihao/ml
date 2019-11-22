@@ -5,9 +5,7 @@ def train(model_name, model, loss_function, optimizer, epochs, transform, train_
     # configures the model to 'train' mode, which ensures that all steps are recorded for back propagation
     model.train()
 
-    for epoch in range(epochs):
-
-        print('\t\t' + str(epoch))
+    for epoch in range(epochs + 1):
 
         for train_digits, train_labels in train_loader:
 
@@ -29,4 +27,10 @@ def train(model_name, model, loss_function, optimizer, epochs, transform, train_
             # change weights based on loss function
             optimizer.step()
 
-    torch.save(model.state_dict(), './models/' + model_name + '.pt')
+            print(f'\t Epoch #{epoch} - training digit set', train_labels)
+            print(f'\t\t Loss: {loss.item()}')
+
+        # if ((epoch % 5) is 0):
+        torch.save(model.state_dict(), './models/' + model_name + '_' + str(epoch) + '.pt')
+
+    # torch.save(model.state_dict(), './models/' + model_name + '.pt')
